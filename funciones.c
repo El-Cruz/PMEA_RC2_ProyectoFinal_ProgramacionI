@@ -2,25 +2,37 @@
 #include <string.h>  
 #include "funciones.h"
 
+// Funcion menu
+void menu(){
+    printf("1. Ingresar datos de contaminacion\n");
+    printf("2. Ingresar datos climaticos\n");
+    printf("3. Mostrar datos de contaminacion\n");
+    printf("4. Predecir contaminacion\n");
+    printf("5. Calcular promedio de contaminacion\n");
+    printf("6. Generar recomendaciones\n");
+    printf("7. Salir\n");
+}
+
+
 // Funcion para ingresar los datos de contaminacion de una zona
 void ingresarDatosContaminacion(struct Contaminacion *contaminacion) {
     do {
-        printf("Ingrese el nivel de CO2: ");
+        printf("Ingrese el nivel en porcentaje de CO2: ");
         scanf("%f", &contaminacion->co2);
     } while (contaminacion->co2 < 0);
 
     do {
-        printf("Ingrese el nivel de SO2: ");
+        printf("Ingrese el nivel en porcentaje de SO2: ");
         scanf("%f", &contaminacion->so2);
     } while (contaminacion->so2 < 0);
 
     do {
-        printf("Ingrese el nivel de NO2: ");
+        printf("Ingrese el nivel en porcentaje de NO2: ");
         scanf("%f", &contaminacion->no2);
     } while (contaminacion->no2 < 0);
 
     do {
-        printf("Ingrese el nivel de PM2.5: ");
+        printf("Ingrese el nivel en porcentaje de PM2.5: ");
         scanf("%f", &contaminacion->pm25);
     } while (contaminacion->pm25 < 0);
 }
@@ -45,11 +57,10 @@ void ingresarDatosClima(struct Clima *clima) {
 
 // Funcion para mostrar los datos de contaminacion
 void mostrarDatosContaminacion(struct Contaminacion contaminacion) {
-    printf("Niveles de Contaminacion:\n");
-    printf("CO2: %.2f, SO2: %.2f, NO2: %.2f, PM2.5: %.2f\n", contaminacion.co2
-                                                            , contaminacion.so2
-                                                            , contaminacion.no2
-                                                            , contaminacion.pm25);
+    printf("%.2f\t|\t%.2f\t|\t%.2f\t|\t%.2f\n", contaminacion.co2,
+                                                 contaminacion.so2,
+                                                 contaminacion.no2,
+                                                 contaminacion.pm25);
 }
 
 // Funcion para predecir la contaminacion basada en los datos historicos y climaticos

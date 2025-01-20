@@ -14,6 +14,7 @@ struct Clima {
 };
 
 // Prototipos de las funciones
+void menu();
 void ingresarDatosContaminacion(struct Contaminacion *contaminacion);
 void ingresarDatosClima(struct Clima *clima);
 void mostrarDatosContaminacion(struct Contaminacion contaminacion);
