@@ -20,8 +20,8 @@ void menu(){
     printf("2. Ingresar datos climaticos\n");
     printf("3. Mostrar datos de contaminacion\n");
     printf("4. Mostrar datos de clima\n");
-    printf("5. Predecir contaminacion\n");
-    printf("6. Calcular promedio de contaminacion\n");
+    printf("5. Calcular promedio de contaminacion\n");
+    printf("6. Predecir contaminacion\n");
     printf("7. Generar recomendaciones\n");
     printf("8. Salir\n");
 }
@@ -63,13 +63,9 @@ void ingresarDatosContaminacion(struct Contaminacion *contaminacion) {
 
 // Funcion para ingresar los datos climaticos
 void ingresarDatosClima(struct Clima *clima) {
-    do {
+        
         printf("Ingrese la temperatura: ");
         scanf("%f", &clima->temperatura);
-        if (clima->temperatura < 0) {
-            printf("No vale ingresar numeros negativos. Vuelva a ingresar.\n");
-        }
-    } while (clima->temperatura < 0);
 
     do {
         printf("Ingrese la velocidad del viento: ");
@@ -102,51 +98,85 @@ void mostrarDatosClima(struct Clima clima) {
                                         clima.velocidad_viento,
                                         clima.humedad);
 }
-
+                    
 //Funcion para comparar los datos de contaminacion con los limites de la OMS
-
-void compararDatosContaminacion(struct Contaminacion zonas[], int n) {
-
+void predecirContaminacion(struct Contaminacion zonas[], int n, struct Clima clima[], float predicciones[], int dias) {
+    // Límites de contaminación basados en estándares (como los de la OMS)
     const float limiteCO2 = 400.0;
     const float limiteSO2 = 20.0;
     const float limiteNO2 = 40.0;
     const float limitePM25 = 25.0;
 
     for (int i = 0; i < n; i++) {
-        if (zonas[i].co2 > limiteCO2) {
-            printf("Alerta en Zona %d: \nNiveles de CO2 por encima de los limites permitidos.\n", i+1);
-        }
-        if (zonas[i].so2 > limiteSO2) {
-            printf("Alerta en Zona %d: \nNiveles de SO2 por encima de los limites permitidos.\n", i+1);
-        }
-        if (zonas[i].no2 > limiteNO2) {
-            printf("Alerta en Zona %d:\nNiveles de NO2 por encima de los limites permitidos.\n", i+1);
-        }
-        if (zonas[i].pm25 > limitePM25) {
-            printf("Alerta en Zona %d: \nNiveles de PM2.5 por encima de los limites permitidos.\n", i+1);
-        }
-    }
-}
+        float sumaCO2 = 0, sumaSO2 = 0, sumaNO2 = 0, sumaPM25 = 0;
 
-// Funcion para predecir la contaminacion basada en los datos historicos y climaticos
-void predecirContaminacion(struct Contaminacion zonas[], int n, struct Clima clima[], float predicciones[], int dias) {
-    for (int i = 0; i < n; i++) {
-        float suma = 0;
+        // Promediar los niveles históricos ajustados por factores climáticos
         for (int j = 0; j < dias; j++) {
-            suma += (zonas[i].co2 + zonas[i].so2 + zonas[i].no2 + zonas[i].pm25) * (1 + clima[j].temperatura / 100.0);
+            sumaCO2 += zonas[i].co2 * (1 + clima[j].temperatura / 100.0);
+            sumaSO2 += zonas[i].so2 * (1 + clima[j].humedad / 100.0);
+            sumaNO2 += zonas[i].no2 * (1 - clima[j].velocidad_viento / 100.0);
+            sumaPM25 += zonas[i].pm25 * (1 + clima[j].temperatura / 100.0);
         }
-        predicciones[i] = suma / dias;
+
+        // Calcular los promedios para cada contaminante
+        float promedioCO2 = sumaCO2 / dias;
+        float promedioSO2 = sumaSO2 / dias;
+        float promedioNO2 = sumaNO2 / dias;
+        float promedioPM25 = sumaPM25 / dias;
+
+        // Guardar el promedio total de contaminación para la zona
+        predicciones[i] = promedioCO2 + promedioSO2 + promedioNO2 + promedioPM25;
+
+        // Bandera para determinar si alguna alerta debe emitirse
+        int alertaEmitida = 0;
+
+        // Emitir alertas si los promedios exceden los límites
+        if (promedioCO2 > limiteCO2) {
+            if (!alertaEmitida) {
+                printf("Zona %d:\n", i + 1);
+                alertaEmitida = 1;
+            }
+            printf("  Alerta: CO2 (%.2f) supera el límite permitido (%.2f).\n", promedioCO2, limiteCO2);
+        }
+        if (promedioSO2 > limiteSO2) {
+            if (!alertaEmitida) {
+                printf("Zona %d:\n", i + 1);
+                alertaEmitida = 1;
+            }
+            printf("  Alerta: SO2 (%.2f) supera el límite permitido (%.2f).\n", promedioSO2, limiteSO2);
+        }
+        if (promedioNO2 > limiteNO2) {
+            if (!alertaEmitida) {
+                printf("Zona %d:\n", i + 1);
+                alertaEmitida = 1;
+            }
+            printf("  Alerta: NO2 (%.2f) supera el límite permitido (%.2f).\n", promedioNO2, limiteNO2);
+        }
+        if (promedioPM25 > limitePM25) {
+            if (!alertaEmitida) {
+                printf("Zona %d:\n", i + 1);
+                alertaEmitida = 1;
+            }
+            printf("  Alerta: PM2.5 (%.2f) supera el límite permitido (%.2f).\n", promedioPM25, limitePM25);
+        }
     }
 }
 
 // Funcion para calcular el promedio de contaminacion historica
 void calcularPromedioContaminacion(struct Contaminacion zonas[], int n, float promedios[], int dias) {
     for (int i = 0; i < n; i++) {
-        float suma = 0;
+        float sumaCO2 = 0, sumaSO2 = 0, sumaNO2 = 0, sumaPM25 = 0;
+
+        // Sumar los datos históricos de contaminación para cada día
         for (int j = 0; j < dias; j++) {
-            suma += (zonas[i].co2 + zonas[i].so2 + zonas[i].no2 + zonas[i].pm25);
+            sumaCO2 += zonas[i].co2; // Cambiado zonas[j] por zonas[i]
+            sumaSO2 += zonas[i].so2;
+            sumaNO2 += zonas[i].no2;
+            sumaPM25 += zonas[i].pm25;
         }
-        promedios[i] = suma / dias;
+
+        // Calcular el promedio total para la zona
+        promedios[i] = (sumaCO2 + sumaSO2 + sumaNO2 + sumaPM25) / dias;
     }
 }
 
@@ -160,7 +190,6 @@ void generarRecomendaciones(float predicciones[], int n) {
         }
     }
 }
-
 
 // Funcion para guardar los datos de contaminacion en un archivo
 void guardarDatosArchivo(struct Contaminacion zonas[], int n, const char *nombreArchivo) {

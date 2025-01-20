@@ -20,7 +20,6 @@ void ingresarDatosContaminacion(struct Contaminacion *contaminacion);
 void ingresarDatosClima(struct Clima *clima);
 void mostrarDatosContaminacion(struct Contaminacion contaminacion);
 void mostrarDatosClima(struct Clima clima);
-void compararDatosContaminacion(struct Contaminacion zonas[], int n);
 void predecirContaminacion(struct Contaminacion zonas[], int n, struct Clima clima[], float predicciones[], int dias);
 void calcularPromedioContaminacion(struct Contaminacion zonas[], int n, float promedios[], int dias);
 void generarRecomendaciones(float predicciones[], int n);

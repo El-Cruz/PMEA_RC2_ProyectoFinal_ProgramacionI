@@ -72,6 +72,7 @@ int main()
             // Predecir contaminacion futura
             printf("\nCalculando predicciones de contaminacion futura...\n");
             predecirContaminacion(zonas, ZONAS, clima, predicciones, DIAS);
+            printf("\n");
             printf("Predicciones calculadas exitosamente.\n\n");
             for (int i = 0; i < ZONAS; i++)
             {
