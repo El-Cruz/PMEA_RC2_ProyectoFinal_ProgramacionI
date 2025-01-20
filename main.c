@@ -12,6 +12,9 @@ int main()
     float promedios[ZONAS];
     int opcion;
 
+    leerDatosArchivo(zonas, ZONAS, "contaminacion.txt");
+    leerDatosArchivoClima(clima, DIAS, "clima.txt");
+    caratula();
     do
     {
         menu();
@@ -45,6 +48,16 @@ int main()
             }
             break;
         case 4:
+            // Mostrar los datos climaticos
+            printf("\nDatos Climaticos:\n");
+            printf("\tTemperatura\t|\tVelocidad Viento\t|\tHumedad\n");
+            for (int i = 0; i < DIAS; i++)
+            {
+                printf("Dia %d:\t\t", i + 1);
+                mostrarDatosClima(clima[i]);
+            }
+            break;
+        case 5:
             // Calcular promedios de contaminacion
             printf("\nCalculando promedios de contaminacion...\n");
             calcularPromedioContaminacion(zonas, ZONAS, promedios, DIAS);
@@ -55,7 +68,7 @@ int main()
             }
             printf("\n");
             break;
-        case 5:
+        case 6:
             // Predecir contaminacion futura
             printf("\nCalculando predicciones de contaminacion futura...\n");
             predecirContaminacion(zonas, ZONAS, clima, predicciones, DIAS);
@@ -66,20 +79,20 @@ int main()
             }
             printf("\n");
             break;
-        case 6:
+        case 7:
             // Generar recomendaciones
             printf("\nGenerando recomendaciones basadas en las predicciones...\n");
             generarRecomendaciones(predicciones, ZONAS);
             printf("Recomendaciones generadas exitosamente.\n");
             break;
-        case 7:
+        case 8:
             printf("Saliendo del programa...\n");
             break;
         }
-    } while (opcion != 7);
+    } while (opcion != 8);
 
     // Guardar los datos en un archivo
     guardarDatosArchivo(zonas, ZONAS, "contaminacion.txt");
-
+    guardarDatosArchivoClima(clima, DIAS, "clima.txt");
     return 0;
 }
