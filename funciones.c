@@ -29,7 +29,7 @@ void menu(){
 // Funcion para ingresar los datos de contaminacion de una zona
 void ingresarDatosContaminacion(struct Contaminacion *contaminacion) {
     do {
-        printf("Ingrese el nivel en porcentaje de CO2: ");
+        printf("Ingrese el nivel en ppb de CO2: ");
         scanf("%f", &contaminacion->co2);
         if (contaminacion->co2 < 0) {
             printf("No vale ingresar numeros negativos. Vuelva a ingresar.\n");
@@ -37,7 +37,7 @@ void ingresarDatosContaminacion(struct Contaminacion *contaminacion) {
     } while (contaminacion->co2 < 0);
 
     do {
-        printf("Ingrese el nivel en porcentaje de SO2: ");
+        printf("Ingrese el nivel en ppb de SO2: ");
         scanf("%f", &contaminacion->so2);
         if (contaminacion->so2 < 0) {
             printf("No vale ingresar numeros negativos. Vuelva a ingresar.\n");
@@ -45,7 +45,7 @@ void ingresarDatosContaminacion(struct Contaminacion *contaminacion) {
     } while (contaminacion->so2 < 0);
 
     do {
-        printf("Ingrese el nivel en porcentaje de NO2: ");
+        printf("Ingrese el nivel en ppb de NO2: ");
         scanf("%f", &contaminacion->no2);
         if (contaminacion->no2 < 0) {
             printf("No vale ingresar numeros negativos. Vuelva a ingresar.\n");
@@ -53,7 +53,7 @@ void ingresarDatosContaminacion(struct Contaminacion *contaminacion) {
     } while (contaminacion->no2 < 0);
 
     do {
-        printf("Ingrese el nivel en porcentaje de PM2.5: ");
+        printf("Ingrese el nivel en ug/m^3 de PM2.5: ");
         scanf("%f", &contaminacion->pm25);
         if (contaminacion->pm25 < 0) {
             printf("No vale ingresar numeros negativos. Vuelva a ingresar.\n");
@@ -102,10 +102,10 @@ void mostrarDatosClima(struct Clima clima) {
 //Funcion para comparar los datos de contaminacion con los limites de la OMS
 void predecirContaminacion(struct Contaminacion zonas[], int n, struct Clima clima[], float predicciones[], int dias) {
     // Límites de contaminación basados en estándares (como los de la OMS)
-    const float limiteCO2 = 400.0;
-    const float limiteSO2 = 20.0;
-    const float limiteNO2 = 40.0;
-    const float limitePM25 = 25.0;
+    const float limiteCO2 = 405.0;
+    const float limiteSO2 = 16.0;
+    const float limiteNO2 = 10.0;
+    const float limitePM25 = 15.0;
 
     for (int i = 0; i < n; i++) {
         float sumaCO2 = 0, sumaSO2 = 0, sumaNO2 = 0, sumaPM25 = 0;
@@ -225,7 +225,7 @@ void guardarDatosArchivoClima(struct Clima clima[], int n, const char *nombreArc
     printf("Datos climaticos guardados en '%s'.\n", nombreArchivo);
 }
 
-// Funcion para leer los datos desde un archivo
+// Funcion para leer los datos desde el archivo contaminación
 void leerDatosArchivo(struct Contaminacion zonas[], int n, const char *nombreArchivo) {
     FILE *archivo = fopen(nombreArchivo, "r");
     if (archivo == NULL) {
@@ -239,6 +239,7 @@ void leerDatosArchivo(struct Contaminacion zonas[], int n, const char *nombreArc
 
     fclose(archivo);
 }
+// Funcion para leer los datos desde el archivo clima
 void leerDatosArchivoClima(struct Clima clima[], int n, const char *nombreArchivo) {
     FILE *archivo = fopen(nombreArchivo, "r");
     if (archivo == NULL) {
