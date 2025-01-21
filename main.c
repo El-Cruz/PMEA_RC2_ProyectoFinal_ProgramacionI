@@ -17,8 +17,10 @@ int main()
     caratula();
     do
     {
+        printf("\n=========================================\n");
         menu();
         scanf("%d", &opcion);
+        printf("\n=========================================\n");
         switch (opcion)
         {
         case 1:
