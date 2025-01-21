@@ -66,7 +66,7 @@ int main()
             printf("Promedios calculados exitosamente.\n\n");
             for (int i = 0; i < ZONAS; i++)
             {
-                printf("Promedio de contaminacion en Zona %d: %.2f\n", i + 1, promedios[i]);
+                printf("Promedio de contaminacion en Zona %d: %.2f ppb\n", i + 1, promedios[i]);
             }
             printf("\n");
             break;
@@ -78,7 +78,7 @@ int main()
             printf("Predicciones calculadas exitosamente.\n\n");
             for (int i = 0; i < ZONAS; i++)
             {
-                printf("Prediccion para la Zona %d: %.2f\n", i + 1, predicciones[i]);
+                printf("Prediccion para la Zona %d: %.2f ppb\n", i + 1, predicciones[i]);
             }
             printf("\n");
             break;

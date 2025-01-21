@@ -9,8 +9,7 @@ void caratula(){
     printf("\n=========================================\n");
     printf("\nGrupo:\nMichael Cordova\nNicolas Cruz\n");
     printf("\n=========================================\n");
-    printf("Sistema Integral de Gestion y Prediccion de Contaminacion \ndel Aire en Zonas Urbanas\n");
-    printf("\n=========================================\n");
+    printf("Sistema Integral de Gestion y \nPrediccion de Contaminacion \ndel Aire en Zonas Urbanas\n");
 }   
 
 // Funcion menu
